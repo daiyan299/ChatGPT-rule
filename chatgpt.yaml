@@ -1,0 +1,145 @@
+# ============================================================
+# OpenAI / ChatGPT Rule Set
+# Optimized for OpenClash / Mihomo
+# Reviewed: 2026-09-25
+#
+# 设计原则：
+# 1. OpenAI 自有域名：DOMAIN-SUFFIX
+# 2. OpenAI 专用第三方服务：DOMAIN / 必要的 DOMAIN-SUFFIX
+# 3. 共享 CDN / Cloudflare / Stripe / Apple：仅精确匹配
+# 4. 不使用 DOMAIN-KEYWORD,openai
+# 5. 不使用 IP-ASN,20473
+# 6. 不依赖固定 IP
+# ============================================================
+
+payload:
+
+  # ----------------------------------------------------------
+  # 1. OpenAI / ChatGPT 核心
+  # ----------------------------------------------------------
+
+  - DOMAIN-SUFFIX,openai.com
+  - DOMAIN-SUFFIX,chatgpt.com
+
+  # ChatGPT Sites（2026）
+  - DOMAIN-SUFFIX,chatgpt.site
+
+  # ----------------------------------------------------------
+  # 2. OpenAI 静态资源 / 用户内容
+  # ----------------------------------------------------------
+
+  - DOMAIN-SUFFIX,oaistatic.com
+  - DOMAIN-SUFFIX,oaiusercontent.com
+
+  # OpenAI Statsig
+  - DOMAIN-SUFFIX,oaistatsig.com
+
+  # OpenAI CDN / Merge
+  - DOMAIN-SUFFIX,openaimerge.com
+
+  # OpenAI image CDN
+  - DOMAIN-SUFFIX,openaicom.imgix.net
+
+  # ----------------------------------------------------------
+  # 3. ChatGPT Voice / Realtime / LiveKit
+  # ----------------------------------------------------------
+
+  - DOMAIN-SUFFIX,chatgpt.livekit.cloud
+  - DOMAIN-SUFFIX,host.livekit.cloud
+  - DOMAIN-SUFFIX,turn.livekit.cloud
+
+  # ----------------------------------------------------------
+  # 4. OpenAI Azure / CDN 基础设施
+  # ----------------------------------------------------------
+
+  - DOMAIN-SUFFIX,openaiapi-site.azureedge.net
+
+  - DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net
+  - DOMAIN,openaicomproductionae4b.blob.core.windows.net
+  - DOMAIN,production-openaicom-storage.azureedge.net
+
+  # ----------------------------------------------------------
+  # 5. Arkose 人机验证
+  # ----------------------------------------------------------
+
+  - DOMAIN-SUFFIX,client-api.arkoselabs.com
+  - DOMAIN,openai-api.arkoselabs.com
+
+  # ----------------------------------------------------------
+  # 6. WorkOS / 登录认证
+  # ----------------------------------------------------------
+
+  - DOMAIN,cdn.workos.com
+  - DOMAIN,forwarder.workos.com
+  - DOMAIN,setup.workos.com
+  - DOMAIN,images.workoscdn.com
+  - DOMAIN,workos.imgix.net
+
+  # ----------------------------------------------------------
+  # 7. Cloudflare Challenge
+  #
+  # 注意：必须精确 DOMAIN
+  # 不要 DOMAIN-SUFFIX,cloudflare.com
+  # ----------------------------------------------------------
+
+  - DOMAIN,challenges.cloudflare.com
+
+  # ----------------------------------------------------------
+  # 8. OpenAI 使用的 SendGrid
+  # ----------------------------------------------------------
+
+  - DOMAIN-SUFFIX,ct.sendgrid.net
+
+  # ----------------------------------------------------------
+  # 9. Statsig / Feature Flags
+  # ----------------------------------------------------------
+
+  - DOMAIN,api.statsig.com
+  - DOMAIN-SUFFIX,events.statsigapi.net
+  - DOMAIN-SUFFIX,featuregates.org
+
+  # ----------------------------------------------------------
+  # 10. Intercom
+  # ----------------------------------------------------------
+
+  - DOMAIN-SUFFIX,intercom.io
+  - DOMAIN-SUFFIX,intercomcdn.com
+
+  # ----------------------------------------------------------
+  # 11. Sentry
+  #
+  # 只代理 OpenAI 当前官方明确列出的实例
+  # 不要 DOMAIN-SUFFIX,sentry.io
+  # ----------------------------------------------------------
+
+  - DOMAIN,o207216.ingest.sentry.io
+  - DOMAIN,o33249.ingest.sentry.io
+
+  # ----------------------------------------------------------
+  # 12. Datadog
+  # ----------------------------------------------------------
+
+  - DOMAIN,rum.browser-intake-datadoghq.com
+  - DOMAIN,browser-intake-datadoghq.com
+
+  # ----------------------------------------------------------
+  # 13. Stripe JS
+  #
+  # 不建议整个 stripe.com 都跟 OpenAI
+  # ----------------------------------------------------------
+
+  - DOMAIN,js.stripe.com
+
+  # ----------------------------------------------------------
+  # 14. Apple / 特定 OpenAI 客户端依赖
+  #
+  # 精确匹配，避免 apple.com 全部走 OpenAI
+  # ----------------------------------------------------------
+
+  - DOMAIN,humb.apple.com
+
+  # ----------------------------------------------------------
+  # 15. 历史 Cloudflare OpenAI CDN
+  # ----------------------------------------------------------
+
+  - DOMAIN,chat.openai.com.cdn.cloudflare.net
